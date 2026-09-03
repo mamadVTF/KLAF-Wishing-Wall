@@ -1,0 +1,3 @@
+# The wall is a bounded in-memory display with fixed slots and oldest-eviction
+
+The wall keeps at most 12 wish bubbles (wall capacity), held only in memory — a reload clears the wall. Bubbles sit in fixed scatter slots that never change; when a wish arrives and the wall is full, the oldest is evicted and the new wish takes its slot. Decided against persisting wishes to localStorage (the wall is a live installation fed by real submissions) and against re-flowing bubbles into free slots (positions stay put; only the float animation moves).

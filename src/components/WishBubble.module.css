@@ -1,0 +1,49 @@
+.float {
+  /* Entrance wrapper; the drift wrapper below carries the layout. */
+}
+
+.drift {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.name {
+  position: absolute;
+  z-index: 1;
+  font-family: var(--font-hand);
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 1;
+  color: var(--color-maggi-red);
+  top: -10px;
+  left: -15px;
+  rotate: -30deg;
+  padding: 0 10px;
+  transform: rotate(-3deg);
+}
+
+.bubble {
+  background: url('/images/wish-bubble.png') no-repeat center / 100% 100%;
+  min-width: 170px;
+  max-width: 225px;
+  min-height: 96px;
+  padding: 30px 26px 44px;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-hand);
+  color: #fff;
+  font-size: 24px;
+  align-items: center;
+  justify-content: center;
+}
+
+.message {
+  font-family: var(--font-hand);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.05;
+  color: #fff;
+  text-align: center;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}

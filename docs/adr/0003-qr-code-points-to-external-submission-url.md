@@ -1,0 +1,3 @@
+# The QR code points to an external submission URL, not an in-app form
+
+The QR code rendered on the wall links to an external submission URL stored in `config.json` (e.g. a Google Form). The app itself has no submit route; wishes enter the wall only through transports. Decided to keep the wall app single-purpose — a scanned QR in a dev build will not reach the wall's own data. Rejected: an in-app `/submit` page sharing the store, which would duplicate the external form's purpose.

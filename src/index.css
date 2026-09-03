@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap');
+
+:root {
+  /* Handwritten campaign type; falls back to system cursive when offline. */
+  --font-hand: 'Caveat', 'Segoe Print', 'Comic Sans MS', cursive;
+  --color-maggi-red: #e40613;
+  --color-wall-yellow: #f1d824;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+}
