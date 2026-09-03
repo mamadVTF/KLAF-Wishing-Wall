@@ -1,3 +1,4 @@
+import { AnimatePresence } from 'motion/react'
 import { useStore } from 'zustand'
 import { wallStore } from '../wallStore'
 import { Logo } from './Logo'
@@ -23,7 +24,15 @@ export function Wall({ qrUrl }: WallProps) {
           (nth-child rules below) never shift as wishes come and go. */}
       {slots.map((wish, index) => (
         <div key={index} className={styles.slot}>
-          {wish && <WishBubble wish={wish} floatDelay={index * FLOAT_STAGGER} />}
+          <AnimatePresence mode="wait">
+            {wish && (
+              <WishBubble
+                key={wish.id}
+                wish={wish}
+                floatDelay={index * FLOAT_STAGGER}
+              />
+            )}
+          </AnimatePresence>
         </div>
       ))}
     </main>
