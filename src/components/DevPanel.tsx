@@ -1,6 +1,10 @@
 import { useState } from 'react'
 import type { KeyboardWishService } from '../keyboardWishService'
-import { randomWishInput, type WishInput } from '../keyboardWishService'
+import {
+  DEFAULT_TITLE,
+  randomWishInput,
+  type WishInput,
+} from '../keyboardWishService'
 import styles from './DevPanel.module.css'
 
 interface DevPanelProps {
@@ -8,13 +12,15 @@ interface DevPanelProps {
 }
 
 export function DevPanel({ service }: DevPanelProps) {
+  const [title, setTitle] = useState(DEFAULT_TITLE)
   const [name, setName] = useState('')
   const [message, setMessage] = useState('')
   const [error, setError] = useState<string | null>(null)
 
   const submit = (input: WishInput) => {
-    const result = service.addWish(input.name, input.message)
+    const result = service.addWish(input.title, input.name, input.message)
     if (result.ok) {
+      setTitle(DEFAULT_TITLE)
       setName('')
       setMessage('')
       setError(null)
@@ -24,15 +30,22 @@ export function DevPanel({ service }: DevPanelProps) {
   }
 
   const fillWall = () => {
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < 13; i++) {
       const input = randomWishInput()
-      service.addWish(input.name, input.message)
+      service.addWish(input.title, input.name, input.message)
     }
   }
 
   return (
     <aside className={styles.panel}>
       <h2 className={styles.title}>Dev panel</h2>
+      <label className={styles.field}>
+        Title
+        <input
+          value={title}
+          onChange={(event) => setTitle(event.target.value)}
+        />
+      </label>
       <label className={styles.field}>
         Name
         <input
@@ -50,7 +63,7 @@ export function DevPanel({ service }: DevPanelProps) {
         />
       </label>
       <div className={styles.actions}>
-        <button type="button" onClick={() => submit({ name, message })}>
+        <button type="button" onClick={() => submit({ title, name, message })}>
           Add wish
         </button>
         <button

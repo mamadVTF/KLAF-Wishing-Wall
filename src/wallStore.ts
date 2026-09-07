@@ -2,7 +2,7 @@ import { createStore } from 'zustand'
 import type { IWishService, Wish } from './transport'
 
 /** Wall capacity: the most wish bubbles the wall shows at once. */
-export const WALL_CAPACITY = 12
+export const WALL_CAPACITY = 13
 
 export interface WallStoreState {
   /** Fixed slots, one per wall position; a slot holds a wish or is empty. */

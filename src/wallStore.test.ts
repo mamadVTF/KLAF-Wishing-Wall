@@ -21,8 +21,14 @@ class FakeTransport implements IWishService {
   }
 }
 
-const makeWish = (id: string, name = 'Nama', message = 'Saya Nak Maggi'): Wish => ({
+const makeWish = (
+  id: string,
+  name = 'Nama',
+  message = 'Saya Nak Maggi',
+  title = 'Saya Nak Maggi',
+): Wish => ({
   id,
+  title,
   name,
   message: `${message} ${id}`,
 })

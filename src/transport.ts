@@ -1,5 +1,6 @@
 export interface Wish {
   id: string
+  title: string
   name: string
   message: string
 }

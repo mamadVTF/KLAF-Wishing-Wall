@@ -8,7 +8,11 @@ import type {
 export const NAME_MAX_LENGTH = 30
 export const MESSAGE_MAX_LENGTH = 140
 
+/** Campaign tagline used as a wish's title when none is supplied. */
+export const DEFAULT_TITLE = 'Saya Nak Maggi'
+
 export interface WishInput {
+  title: string
   name: string
   message: string
 }
@@ -23,6 +27,7 @@ export type AddWishResult =
  * name is limited to 30 characters, message to 140.
  */
 export function validateWish(input: WishInput): AddWishResult {
+  const title = input.title.trim() || DEFAULT_TITLE
   const name = input.name.trim()
   const message = input.message.trim()
 
@@ -46,7 +51,7 @@ export function validateWish(input: WishInput): AddWishResult {
   }
   return {
     ok: true,
-    wish: { id: crypto.randomUUID(), name, message },
+    wish: { id: crypto.randomUUID(), title, name, message },
   }
 }
 
@@ -63,6 +68,13 @@ const NAMES = [
   'Joko',
 ]
 
+const TITLES = [
+  'Saya Nak Maggi',
+  'Saya Nak Maggi Supersurvey',
+  'Cooking Show!',
+  'Saya Nak Kari',
+]
+
 const MESSAGES = [
   'Mala Pedas',
   'Maggi Goreng Mantap',
@@ -71,11 +83,15 @@ const MESSAGES = [
   'Rasa Baru Seru',
 ]
 
-/** A random name + message pair for the dev/demo generator. */
+/** A random title + name + message triple for the dev/demo generator. */
 export function randomWishInput(): WishInput {
   const pick = <T,>(items: T[]): T =>
     items[Math.floor(Math.random() * items.length)]
-  return { name: pick(NAMES), message: pick(MESSAGES) }
+  return {
+    title: pick(TITLES),
+    name: pick(NAMES),
+    message: pick(MESSAGES),
+  }
 }
 
 /**
@@ -92,8 +108,8 @@ export class KeyboardWishService implements IWishService {
     }
   }
 
-  addWish(name: string, message: string): AddWishResult {
-    const result = validateWish({ name, message })
+  addWish(title: string, name: string, message: string): AddWishResult {
+    const result = validateWish({ title, name, message })
     if (result.ok) {
       this.handlers?.onWishAdded(result.wish)
     }

@@ -38,10 +38,10 @@ export function WishBubble({ wish, floatDelay }: WishBubbleProps) {
           delay: floatDelay,
         }}
       >
-        <span className={styles.name}>{wish.name}</span>
         <div className={styles.bubble}>
-          <span className={styles.title}>Saya Nak Maggi</span>
+          <span className={styles.title}>{wish.title}</span>
           <span className={styles.message}>{wish.message}</span>
+          <span className={styles.name}>@ {wish.name}</span>
         </div>
       </motion.div>
     </motion.div>
