@@ -15,19 +15,12 @@ const WISH_BASE_URL = import.meta.env.VITE_WISH_BASE_URL ?? ''
 const DEFAULT_MODE: TransportMode =
   import.meta.env.VITE_TRANSPORT === 'websocket' ? 'websocket' : 'keyboard'
 
-const switchStyle: CSSProperties = {
-  position: 'fixed',
-  top: 8,
-  left: 8,
-  zIndex: 10,
-  display: 'flex',
-  gap: 4,
-}
+
 
 function App() {
   const [config, setConfig] = useState<WallConfig | null>(null)
   const [error, setError] = useState<string | null>(null)
-  const [mode, setMode] = useState<TransportMode>(DEFAULT_MODE)
+  const mode = 'websocket';
 
   const service = useMemo(() => {
     if (mode === 'websocket') {
