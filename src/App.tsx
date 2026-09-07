@@ -65,14 +65,6 @@ function App() {
   return (
     <>
       <Wall />
-      <div style={switchStyle}>
-        <button type="button" onClick={() => setMode('keyboard')}>
-          Keyboard
-        </button>
-        <button type="button" onClick={() => setMode('websocket')}>
-          Live
-        </button>
-      </div>
       {mode === 'keyboard' && (
         <DevPanel service={service as KeyboardWishService} />
       )}
