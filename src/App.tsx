@@ -20,7 +20,7 @@ const DEFAULT_MODE: TransportMode =
 function App() {
   const [config, setConfig] = useState<WallConfig | null>(null)
   const [error, setError] = useState<string | null>(null)
-  const mode = 'websocket';
+  const mode = DEFAULT_MODE;
 
   const service = useMemo(() => {
     if (mode === 'websocket') {
