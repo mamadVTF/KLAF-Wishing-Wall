@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from 'react'
-import type { CSSProperties } from 'react'
 import { loadConfig, type WallConfig } from './config'
 import { KeyboardWishService } from './keyboardWishService'
 import { WebSocketWishService } from './websocketWishService'
