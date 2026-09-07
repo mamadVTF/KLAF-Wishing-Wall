@@ -99,6 +99,8 @@ export class WebSocketWishService implements IWishService {
   private readonly apiKey: string
   private readonly projectCode: string
   private readonly baseUrl: string
+  /** Ids already emitted, so a wish is never added twice (GET snapshot + socket replay). */
+  private seenIds = new Set<string>()
 
   constructor(options: WebSocketWishServiceOptions) {
     this.apiKey = options.apiKey
@@ -157,7 +159,12 @@ export class WebSocketWishService implements IWishService {
       // oldest-eviction keeps the newest wishes when the list exceeds capacity.
       const oldestFirst = [...payload.data].reverse()
       for (const item of oldestFirst) {
-        handlers.onWishAdded(apiWishToWish(item))
+        const wish = apiWishToWish(item)
+        if (this.seenIds.has(wish.id)) {
+          continue
+        }
+        this.seenIds.add(wish.id)
+        handlers.onWishAdded(wish)
       }
     } catch {
       // Live socket still runs; the existing-wish load is best-effort.
@@ -208,11 +215,17 @@ export class WebSocketWishService implements IWishService {
     switch (msg.type) {
       case 'comment:add':
         if (msg.comment) {
-          handlers.onWishAdded(this.commentToWish(msg.comment))
+          const wish = this.commentToWish(msg.comment)
+          if (this.seenIds.has(wish.id)) {
+            break
+          }
+          this.seenIds.add(wish.id)
+          handlers.onWishAdded(wish)
         }
         break
       case 'comment:remove':
         if (msg.commentId !== undefined && msg.commentId !== null) {
+          this.seenIds.delete(String(msg.commentId))
           handlers.onWishRemoved(String(msg.commentId))
         }
         break

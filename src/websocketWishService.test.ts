@@ -192,6 +192,49 @@ describe('WebSocketWishService', () => {
     expect(removed).toEqual(['7'])
   })
 
+  it('does not double-add a wish present in both the initial load and the socket', async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        data: [
+          {
+            id: 7,
+            name: 'Alice',
+            wishes: 'hello',
+            extra_info: '{"type":"A"}',
+          },
+        ],
+      }),
+    })
+    vi.stubGlobal('fetch', fetchMock)
+
+    const service = new WebSocketWishService({ apiKey: 'k' })
+    const { handlers, added } = capture()
+    service.subscribe(handlers)
+
+    FakeWebSocket.instances[0].emitMessage(
+      JSON.stringify({
+        type: 'comment:add',
+        comment: {
+          id: 7,
+          text: 'hello',
+          name: 'Alice',
+          extra_info: '{"type":"A"}',
+        },
+      }),
+    )
+
+    await new Promise((resolve) => setTimeout(resolve, 0))
+
+    expect(added).toHaveLength(1)
+    expect(added[0]).toEqual({
+      id: '7',
+      name: 'Alice',
+      message: 'hello',
+      title: TITLE_BY_TYPE.A,
+    })
+  })
+
   it('ignores a comment:remove without a commentId', async () => {
     const fetchMock = vi.fn().mockResolvedValue(emptyListResponse())
     vi.stubGlobal('fetch', fetchMock)
