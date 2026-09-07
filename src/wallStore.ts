@@ -12,6 +12,7 @@ export interface WallStoreState {
   /** Subscribe a transport to the wall. Returns an unsubscribe function. */
   connect: (service: IWishService) => () => void
   handleWishAdded: (wish: Wish) => void
+  handleWishUpdated: (wish: Wish) => void
   handleWishRemoved: (id: string) => void
 }
 
@@ -35,6 +36,17 @@ export const createWallStore = () =>
         return { slots, arrival: [...state.arrival.slice(1), wish.id] }
       }),
 
+    handleWishUpdated: (wish) =>
+      set((state) => {
+        const index = state.slots.findIndex((slot) => slot?.id === wish.id)
+        if (index === -1) {
+          return state
+        }
+        const slots = [...state.slots]
+        slots[index] = wish
+        return { slots }
+      }),
+
     handleWishRemoved: (id) =>
       set((state) => {
         const slots = state.slots.map((slot) => (slot?.id === id ? null : slot))
@@ -47,6 +59,7 @@ export const createWallStore = () =>
     connect: (service) => {
       const unsubscribe = service.subscribe({
         onWishAdded: (wish) => get().handleWishAdded(wish),
+        onWishUpdated: (wish) => get().handleWishUpdated(wish),
         onWishRemoved: (id) => get().handleWishRemoved(id),
       })
       return unsubscribe

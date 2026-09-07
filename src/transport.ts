@@ -7,6 +7,7 @@ export interface Wish {
 
 export interface WishEventHandlers {
   onWishAdded: (wish: Wish) => void
+  onWishUpdated: (wish: Wish) => void
   onWishRemoved: (id: string) => void
 }
 

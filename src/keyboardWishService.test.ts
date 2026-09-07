@@ -10,12 +10,14 @@ import type { Wish } from './transport'
 function capture() {
   const service = new KeyboardWishService()
   const added: Wish[] = []
+  const updated: Wish[] = []
   const removed: string[] = []
   service.subscribe({
     onWishAdded: (wish) => added.push(wish),
+    onWishUpdated: (wish) => updated.push(wish),
     onWishRemoved: (id) => removed.push(id),
   })
-  return { service, added, removed }
+  return { service, added, updated, removed }
 }
 
 describe('KeyboardWishService', () => {

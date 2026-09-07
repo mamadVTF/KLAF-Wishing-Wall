@@ -16,6 +16,10 @@ class FakeTransport implements IWishService {
     this.handlers?.onWishAdded(wish)
   }
 
+  update(wish: Wish) {
+    this.handlers?.onWishUpdated(wish)
+  }
+
   remove(id: string) {
     this.handlers?.onWishRemoved(id)
   }
@@ -97,6 +101,28 @@ describe('wall store', () => {
     expect(slots[0]?.id).toBe('w-new-1')
     expect(slots[1]?.id).toBe('w-new-2')
     expect(slots.some((slot) => slot?.id === 'w0' || slot?.id === 'w1')).toBe(false)
+  })
+
+  it('updates a wish in place without moving it or changing arrival order', () => {
+    const { store, transport } = setup()
+    transport.add(makeWish('w0'))
+    transport.add(makeWish('w1'))
+
+    transport.update(makeWish('w0', 'Nama Baru', 'Pesan Baru'))
+
+    const slots = store.getState().slots
+    expect(slots[0]).toEqual(makeWish('w0', 'Nama Baru', 'Pesan Baru'))
+    expect(slots[1]?.id).toBe('w1')
+    expect(store.getState().arrival).toEqual(['w0', 'w1'])
+  })
+
+  it('ignores an update for a wish not on the wall', () => {
+    const { store, transport } = setup()
+    transport.add(makeWish('w0'))
+
+    transport.update(makeWish('missing'))
+
+    expect(store.getState().slots[0]?.id).toBe('w0')
   })
 
   it('removes the targeted wish by id, freeing its slot', () => {

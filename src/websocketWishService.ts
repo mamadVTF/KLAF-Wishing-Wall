@@ -230,7 +230,9 @@ export class WebSocketWishService implements IWishService {
         }
         break
       case 'comment:update':
-        // The transport contract has no update handler; updates are ignored.
+        if (msg.comment) {
+          handlers.onWishUpdated(this.commentToWish(msg.comment))
+        }
         break
       default:
         break

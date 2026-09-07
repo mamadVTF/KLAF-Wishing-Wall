@@ -36,12 +36,14 @@ class FakeWebSocket {
 
 function capture() {
   const added: Wish[] = []
+  const updated: Wish[] = []
   const removed: string[] = []
   const handlers: WishEventHandlers = {
     onWishAdded: (wish) => added.push(wish),
+    onWishUpdated: (wish) => updated.push(wish),
     onWishRemoved: (id) => removed.push(id),
   }
-  return { handlers, added, removed }
+  return { handlers, added, updated, removed }
 }
 
 const emptyListResponse = () => ({ ok: true, json: async () => ({ data: [] }) })
@@ -154,12 +156,12 @@ describe('WebSocketWishService', () => {
     expect(FakeWebSocket.instances[0].url).toContain('api_key=k')
   })
 
-  it('relays comment:add, ignores comment:update, and relays comment:remove', async () => {
+  it('relays comment:add, comment:update, and comment:remove', async () => {
     const fetchMock = vi.fn().mockResolvedValue(emptyListResponse())
     vi.stubGlobal('fetch', fetchMock)
 
     const service = new WebSocketWishService({ apiKey: 'k' })
-    const { handlers, added, removed } = capture()
+    const { handlers, added, updated, removed } = capture()
     service.subscribe(handlers)
 
     const socket = FakeWebSocket.instances[0]
@@ -177,7 +179,12 @@ describe('WebSocketWishService', () => {
     socket.emitMessage(
       JSON.stringify({
         type: 'comment:update',
-        comment: { id: 7, text: 'changed', name: 'Alice' },
+        comment: {
+          id: 7,
+          text: 'changed',
+          name: 'Alice',
+          extra_info: '{"type":"B"}',
+        },
       }),
     )
     socket.emitMessage(JSON.stringify({ type: 'comment:remove', commentId: 7 }))
@@ -189,6 +196,14 @@ describe('WebSocketWishService', () => {
       message: 'hello',
       title: TITLE_BY_TYPE.A,
     })
+    expect(updated).toEqual([
+      {
+        id: '7',
+        name: 'Alice',
+        message: 'changed',
+        title: TITLE_BY_TYPE.B,
+      },
+    ])
     expect(removed).toEqual(['7'])
   })
 

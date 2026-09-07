@@ -10,8 +10,8 @@
 
 .bubble {
   background: url('/images/wish-bubble.png') no-repeat center / 100% 100%;
-  width: 250px;
-  height: 200px;
+  width: 235px;
+  height: 180px;
   padding: 20px 24px 48px;
   display: flex;
   flex-direction: column;
@@ -24,11 +24,20 @@
 }
 
 .title {
+  /* Spans the full bubble width by overhanging the 24px side padding. */
+  position: relative;
+  top: 15px;
+  width: 235px;
+  height: 60px;
+  margin: -20px 0px;
+  flex-shrink: 0;
+  overflow: visible;
+}
+
+.titleText {
   font-family: var(--font-hand);
   font-size: 15px;
-  line-height: 1.1;
-  color: rgba(255, 255, 255, 0.92);
-  text-align: center;
+  fill: rgba(255, 255, 255, 0.92);
 }
 
 .message {
@@ -42,6 +51,8 @@
 }
 
 .name {
+  position: relative;
+  bottom: 5px;
   font-family: var(--font-hand);
   font-weight: 600;
   font-size: 17px;
