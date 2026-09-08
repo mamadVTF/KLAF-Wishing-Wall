@@ -110,7 +110,7 @@ ish slot, never re-flowed. Positions are
 .title {
   position: absolute;
   bottom: 150px;
-  right: 20px;
+  right: 40px;
   display: flex;
   justify-content: flex-end;
   width: fit-content;

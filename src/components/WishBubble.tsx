@@ -31,16 +31,7 @@ export function WishBubble({ wish, focused = false }: WishBubbleProps) {
       exit={{ scale: 0.4, opacity: 0, rotate: 8 }}
       transition={{ duration: 0.35, ease: 'easeOut' }}
     >
-      <motion.div
-        className={styles.floatWrap}
-        animate={{ y: [0, -8, 0] }}
-        transition={{
-          duration: 3,
-          repeat: Infinity,
-          ease: 'easeInOut',
-          delay: floatDelay,
-        }}
-      >
+      <div className={styles.floatWrap} style={{ animationDelay: `${floatDelay}s` }}>
         <div className={styles.bubble}>
           <img className={styles.profileIcon} src="/images/profile-icon.png" alt="" />
           <div className={styles.content}>
@@ -49,7 +40,7 @@ export function WishBubble({ wish, focused = false }: WishBubbleProps) {
             <span className={styles.message}>{wish.message}</span>
           </div>
         </div>
-      </motion.div>
+      </div>
     </motion.div>
   )
 }

@@ -1,17 +1,33 @@
 .float {
   /* Entrance wrapper; the floatWrap wrapper below carries the layout. */
+  will-change: transform;
 }
 
 .focused {
   position: relative;
   z-index: 2;
-  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.45));
+}
+
+.focused .bubble {
+  box-shadow: 0 0 24px rgba(255, 255, 255, 0.65), 8px 8px 16px rgba(0, 0, 0, 0.25);
 }
 
 .floatWrap {
   display: flex;
   flex-direction: column;
   align-items: center;
+  will-change: transform;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
 }
 
 .bubble {
@@ -50,6 +66,7 @@
   font-family: 'AromaRoundBETA';
   font-weight: 700;
   font-size: 64px;
+  letter-spacing: 1.1;
   line-height: 1;
   color: #c8102e;
   text-transform: capitalize;
@@ -57,6 +74,7 @@
 
 .title {
   display: block;
+  letter-spacing: 1.1;
   font-family: 'AromaRoundBETA';
   font-weight: 700;
   font-size: 32px;
@@ -70,6 +88,7 @@
 } */
 
 .message {
+  letter-spacing: 1.1;
   font-family: 'AromaRoundBETA';
   font-weight: 700;
   font-size: 64px;
