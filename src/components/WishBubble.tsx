@@ -38,7 +38,7 @@ export function WishBubble({ wish, focused = false }: WishBubbleProps) {
         className={styles.drift}
         animate={{ x: [0, 10, 0, -10, 0], rotate: [0, 6, 0, -6, 0] }}
         transition={{
-          duration: 0.5,
+          duration: 1,
           repeat: Infinity,
           ease: 'linear',
           delay: floatDelay,

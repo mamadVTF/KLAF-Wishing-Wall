@@ -14,7 +14,7 @@ export const FOCUS_INTERVAL = 5
 export const FLAVORS = ['Perisa', 'Pengalaman', 'Produk'] as const
 
 /** How long each flavour stays on the wall, in seconds. */
-export const FLAVOR_DURATION = 20
+export const FLAVOR_DURATION = 1
 
 export interface WallStoreState {
   /** Fixed slots, one per wall position; a slot holds a wish or is empty. */
