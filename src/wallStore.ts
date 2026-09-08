@@ -2,7 +2,7 @@ import { createStore } from 'zustand'
 import type { IWishService, Wish } from './transport'
 
 /** Wall capacity: the most wish bubbles the wall shows at once. */
-export const WALL_CAPACITY = 13
+export const WALL_CAPACITY = 10
 
 /** How long a randomly-chosen wish stays focused, in seconds. */
 export const FOCUS_DURATION = 20
