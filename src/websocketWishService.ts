@@ -22,8 +22,8 @@ export const DEFAULT_PROJECT_CODE = 'maggi20260910'
 
 /** Map of the `extra_info` `type` field to a wish title. */
 export const TITLE_BY_TYPE: Record<string, string> = {
-  A: 'Saya harap MAGGI menganjurkan',
-  B: 'Saya harap MAGGI menghasilkan perisa',
+  A: 'Sa+ya harap MAGGI menghasilkan perisa',
+  B: 'Saya harap MAGGI menganjurkan',
   C: 'Saya harap MAGGI menghasilkan',
 }
 

@@ -27,13 +27,13 @@
 
 .slot-1 {
   left: 13%;
-  top: 25%;
+  top: 30%;
   transform: translate(-50%, -50%) rotate(-4deg);
 }
 
 .slot-2 {
   left: 35%;
-  top: 25%;
+  top: 28%;
   transform: translate(-50%, -50%) rotate(2deg);
 }
 
@@ -101,11 +101,11 @@
 .title {
   position: absolute;
   bottom: 50px;
-  right: 520px;
+  right: 20px;
   display: flex;
   justify-content: flex-end;
   width: fit-content;
-  transform: translate(50%, 50%);
+  transform: translate(0%, 50%);
   gap: 32px;
 }
 
