@@ -1,6 +1,8 @@
 .wall {
   position: relative;
-  min-height: 100svh;
+  left: -575px;
+  top: -741px;
+  /* transform: translate(50%, 50%); */
   overflow: hidden;
   /* Gradient first (renders on top), then the image */
   background-image: 
@@ -12,6 +14,7 @@
   width: 3072px;
   height: 2560px;
   scale: 0.625 0.422;
+
 }
 /* Fixed scatter slots — one per w
 ish slot, never re-flowed. Positions are
