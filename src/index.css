@@ -1,8 +1,30 @@
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap');
+/* Handwritten campaign type; falls back to system cursive when offline. */
+@font-face {
+  font-family: 'OneStrokeScript';
+  src: url('/fonts/OneStrokeScript.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'OneStrokeScript';
+  src: url('/fonts/OneStrokeScriptBold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'AromaRoundBETA';
+  src: url('/fonts/AromaRoundBETA.otf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
-  /* Handwritten campaign type; falls back to system cursive when offline. */
-  --font-hand: 'Caveat', 'Segoe Print', 'Comic Sans MS', cursive;
+  --font-hand: 'OneStrokeScript', 'Segoe Print', 'Comic Sans MS', cursive;
   --color-maggi-red: #e40613;
   --color-wall-yellow: #f1d824;
 }

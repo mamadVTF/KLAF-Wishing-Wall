@@ -2,6 +2,12 @@
   /* Entrance wrapper; the drift wrapper below carries the layout. */
 }
 
+.focused {
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.45));
+}
+
 .drift {
   display: flex;
   flex-direction: column;

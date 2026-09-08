@@ -46,6 +46,11 @@ function App() {
     return wallStore.getState().connect(service)
   }, [service])
 
+  useEffect(() => {
+    wallStore.getState().startFocusRotation()
+    wallStore.getState().startFlavorRotation()
+  }, [])
+
   if (error) {
     return <main>{error}</main>
   }
