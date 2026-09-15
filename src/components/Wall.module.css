@@ -83,28 +83,42 @@ ish slot, never re-flowed. Positions are
 }
 
 .slot-9 {
-  left: 70%;
+  left: 65%;
   top: 75%;
   transform: translate(-50%, -50%) rotate(-2deg);
 }
 
 .slot-10 {
-  left: 79%;
+  left: 88%;
   top: 14%;
   transform: translate(-50%, -50%) rotate(-3deg);
 }
 
 .slot-11 {
-  left: 65%;
-  top: 75%;
+  left: 85%;
+  top: 43%;
   transform: translate(-50%, -50%) rotate(3deg);
 }
 
 .slot-12 {
-  left: 92%;
+  left: 88%;
   top: 75%;
   transform: translate(-50%, -50%) rotate(3deg);
 }
+
+.slot-13 {
+  left: 15%;
+  top: 85%;
+  transform: translate(-50%, -50%) rotate(3deg);
+}
+
+.slot-14 {
+  left: 40%;
+  top: 85%;
+  transform: translate(-50%, -50%) rotate(-5deg);
+}
+
+
 
 
 .title {
