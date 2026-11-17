@@ -1,0 +1,70 @@
+.band {
+  position: fixed;
+  left: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  overflow: hidden;
+  background: #fff;
+  isolation: isolate;
+}
+
+.topBand {
+  top: 0;
+  height: var(--top-logo-band-size);
+}
+
+.bottomBand {
+  bottom: 0;
+  height: var(--bottom-logo-band-size);
+}
+
+.bottomBand .logo {
+  width: 62%;
+}
+
+.logo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  transform: translateZ(0);
+}
+
+.pixelGrid {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(288, minmax(0, 1fr));
+  grid-template-rows: repeat(8, minmax(0, 1fr));
+  pointer-events: none;
+}
+
+.bottomBand .pixelGrid {
+  inset-inline: 19%;
+}
+
+.pixelTile {
+  display: block;
+  background: #fff;
+  animation: revealPixel 420ms steps(1, end) var(--reveal-delay) forwards;
+}
+
+@keyframes revealPixel {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pixelGrid {
+    display: none;
+  }
+}

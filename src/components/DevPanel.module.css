@@ -30,11 +30,30 @@
   font-weight: 600;
 }
 
-.field input {
+.fieldLabel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.spawnCount {
+  color: #666;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.field input,
+.field textarea {
   padding: 6px 8px;
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 14px;
+}
+
+.field textarea {
+  min-height: 64px;
+  resize: vertical;
+  font-family: inherit;
 }
 
 .actions {
@@ -56,6 +75,11 @@
 
 .actions button:hover {
   background: #222;
+}
+
+.actions button:disabled {
+  background: #999;
+  cursor: not-allowed;
 }
 
 .error {

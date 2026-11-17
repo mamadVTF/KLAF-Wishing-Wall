@@ -76,11 +76,11 @@ const TITLES = [
 ]
 
 const MESSAGES = [
-  'Mala Pedas',
-  'Maggi Goreng Mantap',
-  'Kari Spesial',
-  'Ayam Geprek Maggi',
-  'Rasa Baru Seru',
+  'More green spaces and shaded streets',
+  'Cleaner air and cooler city streets',
+  'A greener, smarter KL for everyone',
+  'Better public transport across KL',
+  'More homes, parks, and places to connect',
 ]
 
 /** A random title + name + message triple for the dev/demo generator. */
@@ -114,5 +114,9 @@ export class KeyboardWishService implements IWishService {
       this.handlers?.onWishAdded(result.wish)
     }
     return result
+  }
+
+  removeWish(id: string): void {
+    this.handlers?.onWishRemoved(id)
   }
 }

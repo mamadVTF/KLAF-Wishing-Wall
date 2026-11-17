@@ -5,6 +5,7 @@ import { WebSocketWishService } from './websocketWishService'
 import { wallStore } from './wallStore'
 import { Wall } from './components/Wall'
 import { DevPanel } from './components/DevPanel'
+import { LogoBands } from './components/LogoBands'
 
 type TransportMode = 'keyboard' | 'websocket'
 
@@ -93,6 +94,7 @@ function App() {
 
   return (
     <>
+      <LogoBands />
       <Wall />
       {mode === 'keyboard' && showDevPanel && (
         <DevPanel service={service as KeyboardWishService} />

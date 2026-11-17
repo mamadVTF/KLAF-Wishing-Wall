@@ -115,4 +115,12 @@ describe('KeyboardWishService', () => {
 
     expect(result.ok).toBe(true)
   })
+
+  it('emits a removal for the requested wish id', () => {
+    const { service, removed } = capture()
+
+    service.removeWish('wish-1')
+
+    expect(removed).toEqual(['wish-1'])
+  })
 })

@@ -1,13 +1,14 @@
 .wall {
   position: relative;
-  left: -575px;
-  top: -741px;
+  left: calc((100vw - 3072px) / 2);
+  top: calc((100vh - 1728px) / 2);
   /* transform: translate(50%, 50%); */
-  overflow: hidden;
+  /* Let a wish box and its offset/reveal fragments extend beyond a slot. */
+  overflow: visible;
   background: transparent;
   width: 3072px;
-  height: 2560px;
-  scale: 0.625 0.422;
+  height: 1728px;
+  scale: var(--wall-scale, 0.625);
 
 }
 
@@ -32,91 +33,91 @@ ish slot, never re-flowed. Positions are
 .slot-0 {
   left: 13%;
   top: 30%;
-  transform: translate(-50%, -50%) rotate(-4deg);
+  transform: translate(-50%, -50%);
 }
 
 .slot-1 {
   left: 35%;
   top: 28%;
-  transform: translate(-50%, -50%) rotate(2deg);
+  transform: translate(-50%, -50%);
 }
 
 .slot-2 {
   left: 60%;
   top: 35%;
-  transform: translate(-50%, -50%) rotate(-2deg);
+  transform: translate(-50%, -50%);
 }
 
 .slot-3 {
  left: 85%;
   top: 30%;
-  transform: translate(-50%, -50%) rotate(3deg);
+  transform: translate(-50%, -50%);
 }
 
 .slot-4 {
   left: 16%;
   top: 65%;
-  transform: translate(-50%, -50%) rotate(-2deg);
+  transform: translate(-50%, -50%);
 }
 
 .slot-5 {
   left: 20%;
   top: 48%;
-  transform: translate(-50%, -50%) rotate(3deg);
+  transform: translate(-50%, -50%);
 }
 
 .slot-6 {
   left: 50%;
   top: 52%;
-  transform: translate(-50%, -50%) rotate(-3deg);
+  transform: translate(-50%, -50%);
 }
 
 .slot-7 {
   left: 75%;
   top: 55%;
-  transform: translate(-50%, -50%) rotate(2deg);
+  transform: translate(-50%, -50%);
 }
 
 .slot-8 {
   left: 40%;
   top: 70%;
-  transform: translate(-50%, -50%) rotate(-3deg);
+  transform: translate(-50%, -50%);
 }
 
 .slot-9 {
   left: 65%;
   top: 75%;
-  transform: translate(-50%, -50%) rotate(-2deg);
+  transform: translate(-50%, -50%);
 }
 
 .slot-10 {
   left: 88%;
   top: 14%;
-  transform: translate(-50%, -50%) rotate(-3deg);
+  transform: translate(-50%, -50%);
 }
 
 .slot-11 {
   left: 85%;
   top: 43%;
-  transform: translate(-50%, -50%) rotate(3deg);
+  transform: translate(-50%, -50%);
 }
 
 .slot-12 {
   left: 88%;
   top: 75%;
-  transform: translate(-50%, -50%) rotate(3deg);
+  transform: translate(-50%, -50%);
 }
 
 .slot-13 {
   left: 15%;
   top: 85%;
-  transform: translate(-50%, -50%) rotate(3deg);
+  transform: translate(-50%, -50%);
 }
 
 .slot-14 {
   left: 40%;
   top: 85%;
-  transform: translate(-50%, -50%) rotate(-5deg);
+  transform: translate(-50%, -50%);
 }
 
 
