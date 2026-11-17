@@ -1,13 +1,13 @@
 .wall {
   position: relative;
-  left: calc((100vw - 3072px) / 2);
-  top: calc((100vh - 1728px) / 2);
+  left: calc((100vw - 2064px) / 2);
+  top: calc((100vh - 1536px) / 2);
   /* transform: translate(50%, 50%); */
   /* Let a wish box and its offset/reveal fragments extend beyond a slot. */
   overflow: visible;
   background: transparent;
-  width: 3072px;
-  height: 1728px;
+  width: 2064px;
+  height: 1536px;
   scale: var(--wall-scale, 0.625);
 
 }
@@ -16,6 +16,32 @@
 .contentArea {
   position: absolute;
   inset: var(--top-logo-band-size) 0 var(--bottom-logo-band-size);
+}
+
+.spawnMarker {
+  position: absolute;
+  z-index: 4;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #f7f20d;
+  background: rgba(0, 0, 0, 0.65);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.spawnMarker span {
+  position: absolute;
+  top: 22px;
+  left: 50%;
+  padding: 4px 6px;
+  background: #f7f20d;
+  color: #000;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: calc(11px / var(--wall-scale, 1));
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  transform: translateX(-50%);
 }
 
 /* Fixed scatter slots — one per w
@@ -67,8 +93,8 @@ ish slot, never re-flowed. Positions are
 }
 
 .slot-6 {
-  left: 50%;
-  top: 52%;
+  left: 68%;
+  top: 76%;
   transform: translate(-50%, -50%);
 }
 

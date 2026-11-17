@@ -57,6 +57,18 @@ describe('wall store', () => {
     expect(store.getState().slots[0]).toEqual(makeWish('w0'))
   })
 
+  it('applies a selected spawn position to the next wish only', () => {
+    const { store, transport } = setup()
+
+    store.getState().setNextSpawnPosition({ x: 25, y: 60 })
+    transport.add(makeWish('w0'))
+    transport.add(makeWish('w1'))
+
+    expect(store.getState().positions[0]).toEqual({ x: 25, y: 60 })
+    expect(store.getState().positions[1]).toBeNull()
+    expect(store.getState().nextSpawnPosition).toBeNull()
+  })
+
   it('fills the wall up to capacity, one wish per slot', () => {
     const { store, transport } = setup()
 

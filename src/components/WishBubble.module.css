@@ -1,8 +1,8 @@
 .float {
   /* Entrance wrapper; the floatWrap wrapper below carries the layout. */
   position: relative;
-  width: 450px;
-  height: 193px;
+  width: 464px;
+  height: 205px;
   overflow: visible;
   will-change: transform;
 }
@@ -35,11 +35,10 @@
   position: relative;
   background: transparent;
   border: 2px solid #222;
-  /* Flat orange offset from the supplied WishBox design; no blur. */
-  box-shadow: 14px 14px 0 #ff7058;
+  box-shadow: none;
   border-radius: 0;
-  width: 450px;
-  height: 193px;
+  width: 464px;
+  height: 205px;
   padding: 28px 28px 24px;
   overflow: hidden;
   font-family: Arial, Helvetica, sans-serif;
@@ -56,27 +55,35 @@
   inset: 2px;
   z-index: 0;
   content: '';
-  background: #d9d9d9;
+  background: var(--box-color);
   opacity: 1;
   pointer-events: none;
   transition: opacity 360ms ease;
 }
 
-.gray {
-  background: transparent;
+.teal {
+  --box-color: #249c91;
+  --accent-color: #f7f20d;
 }
 
 .orange {
-  background: transparent;
-  box-shadow: 14px 14px 0 #d9d9d9;
+  --box-color: #ffa31a;
+  --accent-color: #008fa3;
 }
 
-.orange::before {
-  background: linear-gradient(110deg, #ff7058 0%, #fff 100%);
+.blue {
+  --box-color: #72a5d5;
+  --accent-color: #f7f20d;
 }
 
-.orange .name {
-  color: #fff;
+.yellow {
+  --box-color: #f7f20d;
+  --accent-color: #008fa3;
+}
+
+.red {
+  --box-color: #f65a42;
+  --accent-color: #f7f20d;
 }
 
 .content {
@@ -92,10 +99,11 @@
 .name {
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 900;
-  font-size: 14px;
+  /* Keep the rendered name at 14px even though the wall is scaled. */
+  font-size: calc(14px / var(--wall-scale, 1));
   letter-spacing: 1.5px;
   line-height: 1;
-  color: #000;
+  color: var(--accent-color);
   text-transform: uppercase;
 }
 
@@ -103,7 +111,8 @@
   letter-spacing: 0.4px;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 400;
-  font-size: 18px;
+  /* Keep the rendered message at 18px even though the wall is scaled. */
+  font-size: calc(18px / var(--wall-scale, 1));
   font-style: normal;
   line-height: 1.1;
   color: #000;
@@ -125,7 +134,7 @@
   display: block;
   width: 10px;
   height: 10px;
-  background: #fff;
+  background: var(--accent-color);
 }
 
 .cornerMark span:nth-child(1) {
@@ -146,10 +155,6 @@
 .cornerMark span:nth-child(4) {
   grid-column: 2;
   grid-row: 3;
-}
-
-.orange .cornerMark span {
-  background: #ff7058;
 }
 
 .disperseLayer,
@@ -203,7 +208,7 @@
 @media (prefers-reduced-motion: reduce) {
   .revealing {
     border-color: #222;
-    box-shadow: 14px 14px 0 #ff7058;
+    box-shadow: none;
   }
 
   .revealing::before {

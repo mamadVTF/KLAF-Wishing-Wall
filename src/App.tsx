@@ -6,6 +6,9 @@ import { wallStore } from './wallStore'
 import { Wall } from './components/Wall'
 import { DevPanel } from './components/DevPanel'
 import { LogoBands } from './components/LogoBands'
+import { TopTitleLockup } from './components/TopTitleLockup'
+import { CenterTitle } from './components/CenterTitle'
+import { QrCode } from './components/QrCode'
 
 type TransportMode = 'keyboard' | 'websocket'
 
@@ -44,6 +47,15 @@ function App() {
         )
       })
   }, [])
+
+  useEffect(() => {
+    if (!config?.spawnPositions) {
+      return
+    }
+    config.spawnPositions.forEach((position, index) => {
+      wallStore.getState().setSpawnPosition(index, position)
+    })
+  }, [config])
 
   useEffect(() => {
     return wallStore.getState().connect(service)
@@ -95,9 +107,15 @@ function App() {
   return (
     <>
       <LogoBands />
-      <Wall />
+      <TopTitleLockup />
+      <QrCode qrUrl={config.qrUrl} />
+      <CenterTitle />
+      <Wall showSpawnPositions={showDevPanel} />
       {mode === 'keyboard' && showDevPanel && (
-        <DevPanel service={service as KeyboardWishService} />
+        <DevPanel
+          service={service as KeyboardWishService}
+          config={config}
+        />
       )}
     </>
   )
