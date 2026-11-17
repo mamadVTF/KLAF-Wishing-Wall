@@ -11,18 +11,13 @@
   isolation: isolate;
 }
 
-.topBand {
-  top: 0;
-  height: var(--top-logo-band-size);
-}
-
 .bottomBand {
   bottom: 0;
   height: var(--bottom-logo-band-size);
 }
 
 .bottomBand .logo {
-  width: 62%;
+  width: 100%;
 }
 
 .logo {
@@ -42,10 +37,6 @@
   grid-template-columns: repeat(288, minmax(0, 1fr));
   grid-template-rows: repeat(8, minmax(0, 1fr));
   pointer-events: none;
-}
-
-.bottomBand .pixelGrid {
-  inset-inline: 19%;
 }
 
 .pixelTile {

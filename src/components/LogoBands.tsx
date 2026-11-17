@@ -44,23 +44,13 @@ function PixelReveal() {
 
 export function LogoBands() {
   return (
-    <>
-      <header className={`${styles.band} ${styles.topBand}`}>
-        <img
-          className={styles.logo}
-          src="/images/logo-top.png"
-          alt="KLAF partners and sponsors"
-        />
-        <PixelReveal />
-      </header>
-      <footer className={`${styles.band} ${styles.bottomBand}`}>
-        <img
-          className={styles.logo}
-          src="/images/logo-bottom.png"
-          alt="KLAF sponsors"
-        />
-        <PixelReveal />
-      </footer>
-    </>
+    <footer className={`${styles.band} ${styles.bottomBand}`}>
+      <img
+        className={styles.logo}
+        src="/images/logo-bottom-group.png"
+        alt="KLAF partners and sponsors"
+      />
+      <PixelReveal />
+    </footer>
   )
 }

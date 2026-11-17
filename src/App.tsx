@@ -68,11 +68,11 @@ function App() {
 
   useEffect(() => {
     const updateGridHeight = () => {
-      const topBand = window.innerHeight * 0.05
-      const availableHeight = window.innerHeight - topBand * 2
+      const bottomBand = window.innerHeight * 0.2
+      const availableHeight = window.innerHeight - bottomBand
       const completeRows = Math.floor(availableHeight / GRID_CELL_SIZE)
 
-      document.documentElement.style.setProperty('--grid-top', `${topBand}px`)
+      document.documentElement.style.setProperty('--grid-top', '0px')
       document.documentElement.style.setProperty(
         '--grid-height',
         `${completeRows * GRID_CELL_SIZE}px`,

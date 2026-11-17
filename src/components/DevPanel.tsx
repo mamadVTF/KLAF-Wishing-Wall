@@ -58,6 +58,11 @@ export function DevPanel({ service }: DevPanelProps) {
     }
   }
 
+  const clearAllWishes = () => {
+    arrival.forEach((wishId) => service.removeWish(wishId))
+    setError(null)
+  }
+
   return (
     <aside className={styles.panel}>
       <h2 className={styles.title}>Dev panel</h2>
@@ -130,6 +135,13 @@ export function DevPanel({ service }: DevPanelProps) {
           disabled={arrival.length === 0}
         >
           Remove wish
+        </button>
+        <button
+          type="button"
+          onClick={clearAllWishes}
+          disabled={arrival.length === 0}
+        >
+          Clear all wishes
         </button>
       </div>
       {error && <p className={styles.error}>{error}</p>}

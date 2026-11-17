@@ -161,6 +161,21 @@
   pointer-events: none;
 }
 
+.dissolvingSurface {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  transform-origin: center;
+}
+
+.pixelatedLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: visible;
+  pointer-events: none;
+}
+
 .dispersePiece {
   position: absolute;
   display: block;

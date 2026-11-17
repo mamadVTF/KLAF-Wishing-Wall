@@ -13,6 +13,10 @@ type WishBoxVariant = 'gray' | 'orange'
 
 /** Sound played when a new bubble pops in. Drop pop.mp3 into public/audio/. */
 const POP_SOUND = '/audio/pop.mp3'
+const DISSOLVE_DURATION = 0.45
+const PIXELATED_STAGE_DELAY = 0.1
+const DISPERSE_START_DELAY = 0.62
+const EXIT_REMOVE_DELAY_MS = 1600
 
 interface DispersePiece {
   left: string
@@ -97,9 +101,21 @@ function AssembleFragments({ pieces }: { pieces: DispersePiece[] }) {
   )
 }
 
-function DisperseFragments({ pieces }: { pieces: DispersePiece[] }) {
+function DisperseFragments({
+  pieces,
+  startDelay = 0,
+}: {
+  pieces: DispersePiece[]
+  startDelay?: number
+}) {
   return (
-    <span className={styles.disperseLayer} aria-hidden="true">
+    <motion.span
+      className={styles.disperseLayer}
+      aria-hidden="true"
+      initial={{ opacity: startDelay > 0 ? 0 : 1 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: startDelay, duration: 0.12, ease: 'linear' }}
+    >
       {pieces.map((piece, index) => (
         <motion.span
           key={index}
@@ -121,12 +137,70 @@ function DisperseFragments({ pieces }: { pieces: DispersePiece[] }) {
           }}
           transition={{
             duration: 0.72,
-            delay: piece.delay,
+            delay: startDelay + piece.delay,
             ease: 'easeOut',
           }}
         />
       ))}
-    </span>
+    </motion.span>
+  )
+}
+
+function PixelatedFragments({ pieces }: { pieces: DispersePiece[] }) {
+  return (
+    <motion.span
+      className={styles.pixelatedLayer}
+      aria-hidden="true"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: [0, 1, 1, 0] }}
+      transition={{
+        delay: PIXELATED_STAGE_DELAY,
+        duration: 0.9,
+        times: [0, 0.35, 0.6, 1],
+        ease: 'linear',
+      }}
+    >
+      {pieces.map((piece, index) => (
+        <span
+          key={index}
+          className={styles.dispersePiece}
+          style={{
+            left: piece.left,
+            top: piece.top,
+            width: piece.width,
+            height: piece.height,
+            background: piece.color,
+          }}
+        />
+      ))}
+    </motion.span>
+  )
+}
+
+function WishBoxSurface({
+  wish,
+  variant,
+  revealing = false,
+}: {
+  wish: Wish
+  variant: WishBoxVariant
+  revealing?: boolean
+}) {
+  return (
+    <div
+      className={`${styles.bubble} ${styles[variant]} ${revealing ? styles.revealing : ''}`}
+    >
+      <div className={styles.content}>
+        <span className={styles.name}>{wish.name}</span>
+        <span className={styles.message}>{wish.message}</span>
+      </div>
+      <span className={styles.cornerMark} aria-hidden="true">
+        <span />
+        <span />
+        <span />
+        <span />
+      </span>
+    </div>
   )
 }
 
@@ -157,7 +231,7 @@ export function WishBubble({ wish, focused = false }: WishBubbleProps) {
       return
     }
 
-    const timeout = window.setTimeout(safeToRemove, 1000)
+    const timeout = window.setTimeout(safeToRemove, EXIT_REMOVE_DELAY_MS)
     return () => window.clearTimeout(timeout)
   }, [isPresent, safeToRemove])
 
@@ -171,24 +245,22 @@ export function WishBubble({ wish, focused = false }: WishBubbleProps) {
     >
       {isPresent ? (
         <div className={styles.floatWrap} style={{ animationDelay: `${floatDelay}s` }}>
-          <div
-            className={`${styles.bubble} ${styles[variant]} ${!revealComplete ? styles.revealing : ''}`}
-          >
-            <div className={styles.content}>
-              <span className={styles.name}>{wish.name}</span>
-              <span className={styles.message}>{wish.message}</span>
-            </div>
-            <span className={styles.cornerMark} aria-hidden="true">
-              <span />
-              <span />
-              <span />
-              <span />
-            </span>
-            {!revealComplete && <AssembleFragments pieces={pieces} />}
-          </div>
+          <WishBoxSurface wish={wish} variant={variant} revealing={!revealComplete} />
+          {!revealComplete && <AssembleFragments pieces={pieces} />}
         </div>
       ) : (
-        <DisperseFragments pieces={pieces} />
+        <>
+          <motion.div
+            className={styles.dissolvingSurface}
+            initial={{ opacity: 1, scale: 1 }}
+            animate={{ opacity: 0, scale: 0.96 }}
+            transition={{ duration: DISSOLVE_DURATION, ease: 'easeInOut' }}
+          >
+            <WishBoxSurface wish={wish} variant={variant} />
+          </motion.div>
+          <PixelatedFragments pieces={pieces} />
+          <DisperseFragments pieces={pieces} startDelay={DISPERSE_START_DELAY} />
+        </>
       )}
     </motion.div>
   )
