@@ -17,7 +17,7 @@
   margin: 0;
   font-size: 14px;
   font-weight: 700;
-  color: #e40613;
+  color: #000;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -47,7 +47,7 @@
   padding: 6px 10px;
   border: none;
   border-radius: 6px;
-  background: #e40613;
+  background: #000;
   color: #fff;
   font-size: 13px;
   font-weight: 600;
@@ -55,7 +55,7 @@
 }
 
 .actions button:hover {
-  background: #c20511;
+  background: #222;
 }
 
 .error {

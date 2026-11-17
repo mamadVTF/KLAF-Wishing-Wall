@@ -27,6 +27,12 @@
   --font-hand: 'OneStrokeScript', 'Segoe Print', 'Comic Sans MS', cursive;
   --color-maggi-red: #e40613;
   --color-wall-yellow: #f1d824;
+  --top-logo-band-size: 5%;
+  --bottom-logo-band-size: 5%;
+  --grid-cell-size: 64.8px;
+  --grid-top: 5vh;
+  --grid-height: 90vh;
+  --grid-offset: 1vh;
 }
 
 * {
@@ -39,12 +45,36 @@ body,
   margin: 0;
   padding: 0;
   min-height: 100%;
-
 }
 
 body {
+  position: relative;
   font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  background-color: #fff;
   overflow: hidden;
   width: 1920px;
   height: 1080px;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: calc(var(--grid-top) + var(--grid-offset));
+  right: 0;
+  left: 0;
+  height: var(--grid-height);
+  background-image:
+    linear-gradient(to right, #e3e3e3 0 1px, transparent 1px),
+    linear-gradient(to bottom, #e3e3e3 0 1px, transparent 1px);
+  background-size: var(--grid-cell-size) var(--grid-cell-size);
+  background-position: 0 0;
+  box-sizing: content-box;
+  border-bottom: 1px solid #e3e3e3;
+  pointer-events: none;
+  z-index: 0;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
 }

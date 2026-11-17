@@ -9,7 +9,7 @@ export const NAME_MAX_LENGTH = 30
 export const MESSAGE_MAX_LENGTH = 140
 
 /** Campaign tagline used as a wish's title when none is supplied. */
-export const DEFAULT_TITLE = 'Saya Nak Maggi'
+export const DEFAULT_TITLE = 'My wish for the future of KL is'
 
 export interface WishInput {
   title: string
@@ -69,7 +69,7 @@ const NAMES = [
 ]
 
 const TITLES = [
-  'Saya Nak Maggi',
+  'My wish for the future of KL is',
   'Saya Nak Maggi Supersurvey',
   'Cooking Show!',
   'Saya Nak Kari',

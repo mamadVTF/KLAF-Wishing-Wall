@@ -4,18 +4,19 @@
   top: -741px;
   /* transform: translate(50%, 50%); */
   overflow: hidden;
-  /* Gradient first (renders on top), then the image */
-  background-image: 
-    url('/images/background.png'),
-    linear-gradient(180deg, #FFED00 12.5%, #F5DC02 62.98%, #C39E0A 100%);
-
-  background-size: cover;
-  background-position: center;
+  background: transparent;
   width: 3072px;
   height: 2560px;
   scale: 0.625 0.422;
 
 }
+
+/* Reserve the top band for future header logos. */
+.contentArea {
+  position: absolute;
+  inset: var(--top-logo-band-size) 0 var(--bottom-logo-band-size);
+}
+
 /* Fixed scatter slots — one per w
 ish slot, never re-flowed. Positions are
    tied to slot index via a per-index class, so they never depend on which
@@ -121,30 +122,3 @@ ish slot, never re-flowed. Positions are
 
 
 
-.title {
-  position: absolute;
-  bottom: 150px;
-  right: 40px;
-  display: flex;
-  justify-content: flex-end;
-  width: fit-content;
-  transform: translate(0%, 50%);
-  gap: 32px;
-}
-
-.highlight {
-  position: relative;
-  width: fit-content;
-  text-align: right;
-  font-size: 180px;
-  bottom: 10px;
-  font-family: 'AromaRoundBETA';  
-}
-
-.default {
-  width: fit-content;
-  text-align: right;
-  font-size: 180px;
-  font-family: 'AromaRoundBETA'; 
-  color: white; 
-}

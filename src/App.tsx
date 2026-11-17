@@ -14,11 +14,13 @@ const WISH_BASE_URL = import.meta.env.VITE_WISH_BASE_URL ?? ''
 const DEFAULT_MODE: TransportMode =
   import.meta.env.VITE_TRANSPORT === 'websocket' ? 'websocket' : 'keyboard'
 
+const GRID_CELL_SIZE = 64.8
 
 
 function App() {
   const [config, setConfig] = useState<WallConfig | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [showDevPanel, setShowDevPanel] = useState(false)
   const mode = DEFAULT_MODE;
 
   const service = useMemo(() => {
@@ -51,6 +53,36 @@ function App() {
     wallStore.getState().startFlavorRotation()
   }, [])
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.shiftKey && event.key.toLowerCase() === 'd') {
+        event.preventDefault()
+        setShowDevPanel((visible) => !visible)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
+
+  useEffect(() => {
+    const updateGridHeight = () => {
+      const topBand = window.innerHeight * 0.05
+      const availableHeight = window.innerHeight - topBand * 2
+      const completeRows = Math.floor(availableHeight / GRID_CELL_SIZE)
+
+      document.documentElement.style.setProperty('--grid-top', `${topBand}px`)
+      document.documentElement.style.setProperty(
+        '--grid-height',
+        `${completeRows * GRID_CELL_SIZE}px`,
+      )
+    }
+
+    updateGridHeight()
+    window.addEventListener('resize', updateGridHeight)
+    return () => window.removeEventListener('resize', updateGridHeight)
+  }, [])
+
   if (error) {
     return <main>{error}</main>
   }
@@ -62,7 +94,7 @@ function App() {
   return (
     <>
       <Wall />
-      {mode === 'keyboard' && (
+      {mode === 'keyboard' && showDevPanel && (
         <DevPanel service={service as KeyboardWishService} />
       )}
     </>
