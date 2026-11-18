@@ -65,8 +65,20 @@ describe('wall store', () => {
     transport.add(makeWish('w1'))
 
     expect(store.getState().positions[0]).toEqual({ x: 25, y: 60 })
-    expect(store.getState().positions[1]).toBeNull()
+    expect(store.getState().positions[1]).toEqual({ x: 35, y: 28 })
     expect(store.getState().nextSpawnPosition).toBeNull()
+  })
+
+  it('uses configured spawn positions when a wish has no explicit override', () => {
+    const { store, transport } = setup()
+    store.getState().setSpawnPosition(0, { x: 10, y: 30 })
+    store.getState().setSpawnPosition(1, { x: 35, y: 22 })
+
+    transport.add(makeWish('w0'))
+    transport.add(makeWish('w1'))
+
+    expect(store.getState().positions[0]).toEqual({ x: 10, y: 30 })
+    expect(store.getState().positions[1]).toEqual({ x: 35, y: 22 })
   })
 
   it('fills the wall up to capacity, one wish per slot', () => {
