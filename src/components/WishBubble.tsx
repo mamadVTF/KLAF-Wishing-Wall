@@ -9,7 +9,7 @@ interface WishBubbleProps {
   focused?: boolean
 }
 
-type WishBoxVariant = 'gray' | 'orange'
+type WishBoxVariant = 'teal' | 'orange' | 'blue' | 'yellow' | 'red'
 
 /** Sound played when a new bubble pops in. Drop pop.mp3 into public/audio/. */
 const POP_SOUND = '/audio/pop.mp3'
@@ -59,14 +59,15 @@ function createDispersePieces(
   return pieces
 }
 
-const GRAY_PIECES = createDispersePieces(
-  ['#d9d9d9', '#ff7058', '#f3f3f3', '#222'],
-  0x9e3779b9,
-)
-const ORANGE_PIECES = createDispersePieces(
-  ['#ff7058', '#ff9d88', '#fff3ef', '#f3f3f3', '#222'],
-  0x243f6a88,
-)
+const VARIANTS: WishBoxVariant[] = ['teal', 'orange', 'blue', 'yellow', 'red']
+
+const PIECES_BY_VARIANT: Record<WishBoxVariant, DispersePiece[]> = {
+  teal: createDispersePieces(['#249c91', '#f7f20d', '#222'], 0x9e3779b9),
+  orange: createDispersePieces(['#ffa31a', '#008fa3', '#222'], 0x243f6a88),
+  blue: createDispersePieces(['#72a5d5', '#f7f20d', '#222'], 0x517cc1a3),
+  yellow: createDispersePieces(['#f7f20d', '#008fa3', '#222'], 0x7f4a7c15),
+  red: createDispersePieces(['#f65a42', '#f7f20d', '#222'], 0x1b873593),
+}
 
 function AssembleFragments({ pieces }: { pieces: DispersePiece[] }) {
   return (
@@ -208,11 +209,11 @@ export function WishBubble({ wish, focused = false }: WishBubbleProps) {
   // Random phase offset so each bubble floats on its own schedule.
   const [floatDelay] = useState(() => Math.random() * 5)
   const [variant] = useState<WishBoxVariant>(() =>
-    Math.random() < 0.5 ? 'gray' : 'orange',
+    VARIANTS[Math.floor(Math.random() * VARIANTS.length)],
   )
   const [revealComplete, setRevealComplete] = useState(false)
   const [isPresent, safeToRemove] = usePresence()
-  const pieces = variant === 'orange' ? ORANGE_PIECES : GRAY_PIECES
+  const pieces = PIECES_BY_VARIANT[variant]
 
   useEffect(() => {
     const audio = new Audio(POP_SOUND)

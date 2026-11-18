@@ -1,3 +1,34 @@
 {
-  "qrUrl": "https://example.com/wishing-wall-submit"
+  "qrUrl": "https://example.com/wishing-wall-submit",
+  "spawnLimit": 7,
+  "spawnPositions": [
+    {
+      "x": 10,
+      "y": 30
+    },
+    {
+      "x": 35,
+      "y": 22
+    },
+    {
+      "x": 60,
+      "y": 31
+    },
+    {
+      "x": 81,
+      "y": 84
+    },
+    {
+      "x": 8,
+      "y": 74
+    },
+    {
+      "x": 32,
+      "y": 86
+    },
+    {
+      "x": 57,
+      "y": 75
+    }
+  ]
 }

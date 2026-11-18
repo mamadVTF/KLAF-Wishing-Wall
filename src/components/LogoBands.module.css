@@ -14,10 +14,14 @@
 .bottomBand {
   bottom: 0;
   height: var(--bottom-logo-band-size);
+  padding-top: 8px;
+  box-sizing: border-box;
 }
 
 .bottomBand .logo {
   width: 100%;
+  box-sizing: border-box;
+  padding-inline: 20px;
 }
 
 .logo {

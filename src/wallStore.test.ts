@@ -57,6 +57,18 @@ describe('wall store', () => {
     expect(store.getState().slots[0]).toEqual(makeWish('w0'))
   })
 
+  it('applies a selected spawn position to the next wish only', () => {
+    const { store, transport } = setup()
+
+    store.getState().setNextSpawnPosition({ x: 25, y: 60 })
+    transport.add(makeWish('w0'))
+    transport.add(makeWish('w1'))
+
+    expect(store.getState().positions[0]).toEqual({ x: 25, y: 60 })
+    expect(store.getState().positions[1]).toBeNull()
+    expect(store.getState().nextSpawnPosition).toBeNull()
+  })
+
   it('fills the wall up to capacity, one wish per slot', () => {
     const { store, transport } = setup()
 
@@ -101,6 +113,21 @@ describe('wall store', () => {
     expect(slots[0]?.id).toBe('w-new-1')
     expect(slots[1]?.id).toBe('w-new-2')
     expect(slots.some((slot) => slot?.id === 'w0' || slot?.id === 'w1')).toBe(false)
+  })
+
+  it('uses the configured capacity and evicts the oldest wish past that limit', () => {
+    const { store, transport } = setup()
+    store.getState().setCapacity(2)
+
+    transport.add(makeWish('w0'))
+    transport.add(makeWish('w1'))
+    transport.add(makeWish('w2'))
+
+    expect(store.getState().slots.map((slot) => slot?.id)).toEqual([
+      'w2',
+      'w1',
+    ])
+    expect(store.getState().arrival).toEqual(['w1', 'w2'])
   })
 
   it('updates a wish in place without moving it or changing arrival order', () => {

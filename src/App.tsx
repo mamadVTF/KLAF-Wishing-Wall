@@ -1,11 +1,14 @@
 import { useEffect, useMemo, useState } from 'react'
-import { loadConfig, type WallConfig } from './config'
+import { loadConfig, MAX_CONFIG_SPAWN_LIMIT, type WallConfig } from './config'
 import { KeyboardWishService } from './keyboardWishService'
 import { WebSocketWishService } from './websocketWishService'
 import { wallStore } from './wallStore'
 import { Wall } from './components/Wall'
 import { DevPanel } from './components/DevPanel'
 import { LogoBands } from './components/LogoBands'
+import { TopTitleLockup } from './components/TopTitleLockup'
+import { CenterTitle } from './components/CenterTitle'
+import { QrCode } from './components/QrCode'
 
 type TransportMode = 'keyboard' | 'websocket'
 
@@ -22,6 +25,7 @@ function App() {
   const [config, setConfig] = useState<WallConfig | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [showDevPanel, setShowDevPanel] = useState(false)
+  const [showSpawnPositions, setShowSpawnPositions] = useState(true)
   const mode = DEFAULT_MODE;
 
   const service = useMemo(() => {
@@ -44,6 +48,18 @@ function App() {
         )
       })
   }, [])
+
+  useEffect(() => {
+    wallStore
+      .getState()
+      .setCapacity(config?.spawnLimit ?? MAX_CONFIG_SPAWN_LIMIT)
+    if (!config?.spawnPositions) {
+      return
+    }
+    config.spawnPositions.forEach((position, index) => {
+      wallStore.getState().setSpawnPosition(index, position)
+    })
+  }, [config])
 
   useEffect(() => {
     return wallStore.getState().connect(service)
@@ -95,9 +111,17 @@ function App() {
   return (
     <>
       <LogoBands />
-      <Wall />
+      <TopTitleLockup />
+      <QrCode qrUrl={config.qrUrl} />
+      <CenterTitle />
+      <Wall showSpawnPositions={showDevPanel && showSpawnPositions} />
       {mode === 'keyboard' && showDevPanel && (
-        <DevPanel service={service as KeyboardWishService} />
+        <DevPanel
+          service={service as KeyboardWishService}
+          config={config}
+          showSpawnPositions={showSpawnPositions}
+          onShowSpawnPositionsChange={setShowSpawnPositions}
+        />
       )}
     </>
   )
