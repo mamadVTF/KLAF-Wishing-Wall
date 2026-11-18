@@ -29,6 +29,7 @@
   --color-wall-yellow: #f1d824;
   --top-logo-band-size: 0%;
   --bottom-logo-band-size: 20%;
+  --wall-font-scale: 0.62;
   --grid-cell-size: 64.8px;
   --grid-top: 0vh;
   --grid-height: 80vh;

@@ -2,11 +2,12 @@ import { useEffect } from 'react'
 import { AnimatePresence } from 'motion/react'
 import { useStore } from 'zustand'
 import { wallStore } from '../wallStore'
+import {
+  calculateReadableScale,
+  calculateWallScale,
+} from '../wallScale'
 import { WishBubble } from './WishBubble'
 import styles from './Wall.module.css'
-
-const WALL_WIDTH = 2064
-const WALL_HEIGHT = 1536
 
 interface WallProps {
   showSpawnPositions?: boolean
@@ -20,11 +21,12 @@ export function Wall({ showSpawnPositions = false }: WallProps) {
 
   useEffect(() => {
     const updateWallScale = () => {
-      const scale = Math.min(
-        window.innerWidth / WALL_WIDTH,
-        window.innerHeight / WALL_HEIGHT,
-      )
+      const scale = calculateWallScale(window.innerWidth, window.innerHeight)
       document.documentElement.style.setProperty('--wall-scale', `${scale}`)
+      document.documentElement.style.setProperty(
+        '--wall-font-scale',
+        `${calculateReadableScale(window.innerWidth, window.innerHeight)}`,
+      )
     }
 
     updateWallScale()
