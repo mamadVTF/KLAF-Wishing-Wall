@@ -9,6 +9,7 @@ import { LogoBands } from './components/LogoBands'
 import { TopTitleLockup } from './components/TopTitleLockup'
 import { CenterTitle } from './components/CenterTitle'
 import { QrCode } from './components/QrCode'
+import { isDevPanelRequested } from './devPanelAccess'
 
 type TransportMode = 'keyboard' | 'websocket'
 
@@ -24,7 +25,9 @@ const GRID_CELL_SIZE = 64.8
 function App() {
   const [config, setConfig] = useState<WallConfig | null>(null)
   const [error, setError] = useState<string | null>(null)
-  const [showDevPanel, setShowDevPanel] = useState(false)
+  const [showDevPanel, setShowDevPanel] = useState(() =>
+    isDevPanelRequested(window.location.search),
+  )
   const [showSpawnPositions, setShowSpawnPositions] = useState(true)
   const mode = DEFAULT_MODE;
 
@@ -38,6 +41,7 @@ function App() {
     }
     return new KeyboardWishService()
   }, [mode])
+  const devPanelService = useMemo(() => new KeyboardWishService(), [])
 
   useEffect(() => {
     loadConfig()
@@ -64,6 +68,13 @@ function App() {
   useEffect(() => {
     return wallStore.getState().connect(service)
   }, [service])
+
+  useEffect(() => {
+    if (mode !== 'websocket' || !showDevPanel) {
+      return
+    }
+    return wallStore.getState().connect(devPanelService)
+  }, [devPanelService, mode, showDevPanel])
 
   useEffect(() => {
     wallStore.getState().startFocusRotation()
@@ -115,9 +126,13 @@ function App() {
       <QrCode qrUrl={config.qrUrl} />
       <CenterTitle />
       <Wall showSpawnPositions={showDevPanel && showSpawnPositions} />
-      {mode === 'keyboard' && showDevPanel && (
+      {showDevPanel && (
         <DevPanel
-          service={service as KeyboardWishService}
+          service={
+            mode === 'keyboard'
+              ? (service as KeyboardWishService)
+              : devPanelService
+          }
           config={config}
           showSpawnPositions={showSpawnPositions}
           onShowSpawnPositionsChange={setShowSpawnPositions}
