@@ -66,15 +66,18 @@ function App() {
   }, [config])
 
   useEffect(() => {
+    if (!config) {
+      return
+    }
     return wallStore.getState().connect(service)
-  }, [service])
+  }, [config, service])
 
   useEffect(() => {
-    if (mode !== 'websocket' || !showDevPanel) {
+    if (!config || mode !== 'websocket' || !showDevPanel) {
       return
     }
     return wallStore.getState().connect(devPanelService)
-  }, [devPanelService, mode, showDevPanel])
+  }, [config, devPanelService, mode, showDevPanel])
 
   useEffect(() => {
     wallStore.getState().startFocusRotation()

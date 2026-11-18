@@ -85,7 +85,8 @@ export const createWallStore = () => {
         const freeIndex = slots.findIndex((slot) => slot === null)
         if (freeIndex !== -1) {
           slots[freeIndex] = wish
-          positions[freeIndex] = state.nextSpawnPosition
+          positions[freeIndex] =
+            state.nextSpawnPosition ?? state.spawnPositions[freeIndex] ?? null
           return {
             slots,
             positions,
@@ -97,9 +98,8 @@ export const createWallStore = () => {
         const oldestId = state.arrival[0]
         const evictedIndex = slots.findIndex((slot) => slot?.id === oldestId)
         slots[evictedIndex] = wish
-        if (state.nextSpawnPosition !== null) {
-          positions[evictedIndex] = state.nextSpawnPosition
-        }
+        positions[evictedIndex] =
+          state.nextSpawnPosition ?? state.spawnPositions[evictedIndex] ?? null
         return {
           slots,
           positions,
