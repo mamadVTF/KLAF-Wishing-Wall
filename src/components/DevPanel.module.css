@@ -22,6 +22,46 @@
   letter-spacing: 0.05em;
 }
 
+.foldout {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.foldoutSummary {
+  padding: 7px 8px;
+  border-radius: 6px;
+  background: #f2f2f2;
+  color: #000;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  user-select: none;
+}
+
+.foldoutSummary::marker {
+  color: #666;
+}
+
+.foldoutContent {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.toggle input {
+  margin: 0;
+}
+
 .field {
   display: flex;
   flex-direction: column;

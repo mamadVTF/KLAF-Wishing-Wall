@@ -37,6 +37,8 @@ export interface WallStoreState {
   /** Fixed slots, one per wall position; a slot holds a wish or is empty. */
   flavor: string
   slots: (Wish | null)[]
+  /** Maximum number of wishes currently shown on the wall. */
+  capacity: number
   /** Configured positions used by newly spawned wishes. */
   spawnPositions: SpawnPosition[]
   /** Optional per-wish positions set by the dev panel; null uses the default slot. */
@@ -48,6 +50,7 @@ export interface WallStoreState {
   /** Id of the wish currently focused (scaled up), or null when none. */
   focusId: string | null
   setNextSpawnPosition: (position: SpawnPosition | null) => void
+  setCapacity: (capacity: number) => void
   setSpawnPosition: (index: number, position: SpawnPosition) => void
   setWishPosition: (id: string, position: SpawnPosition) => void
   /** Subscribe a transport to the wall. Returns an unsubscribe function. */
@@ -67,6 +70,7 @@ export const createWallStore = () => {
 
   const store = createStore<WallStoreState>()((set, get) => ({
     slots: Array<Wish | null>(WALL_CAPACITY).fill(null),
+    capacity: WALL_CAPACITY,
     spawnPositions: DEFAULT_SPAWN_POSITIONS.map((position) => ({ ...position })),
     positions: Array<SpawnPosition | null>(WALL_CAPACITY).fill(null),
     nextSpawnPosition: null,
@@ -93,7 +97,9 @@ export const createWallStore = () => {
         const oldestId = state.arrival[0]
         const evictedIndex = slots.findIndex((slot) => slot?.id === oldestId)
         slots[evictedIndex] = wish
-        positions[evictedIndex] = state.nextSpawnPosition
+        if (state.nextSpawnPosition !== null) {
+          positions[evictedIndex] = state.nextSpawnPosition
+        }
         return {
           slots,
           positions,
@@ -104,6 +110,47 @@ export const createWallStore = () => {
       }),
 
     setNextSpawnPosition: (position) => set({ nextSpawnPosition: position }),
+
+    setCapacity: (capacity) =>
+      set((state) => {
+        const nextCapacity = Math.min(
+          WALL_CAPACITY,
+          Math.max(1, Math.floor(capacity)),
+        )
+        if (nextCapacity === state.capacity) {
+          return state
+        }
+
+        const retainedIds = new Set(state.arrival.slice(-nextCapacity))
+        const slots: (Wish | null)[] = Array(nextCapacity).fill(null)
+        const positions: (SpawnPosition | null)[] = Array(nextCapacity).fill(
+          null,
+        )
+
+        for (let index = 0; index < state.slots.length; index++) {
+          const wish = state.slots[index]
+          if (!wish || !retainedIds.has(wish.id)) {
+            continue
+          }
+          const targetIndex = slots.findIndex((slot) => slot === null)
+          if (targetIndex === -1) {
+            break
+          }
+          slots[targetIndex] = wish
+          positions[targetIndex] = state.positions[index] ?? null
+        }
+
+        return {
+          capacity: nextCapacity,
+          slots,
+          positions,
+          arrival: state.arrival.filter((id) => retainedIds.has(id)),
+          focusId:
+            state.focusId && retainedIds.has(state.focusId)
+              ? state.focusId
+              : null,
+        }
+      }),
 
     setSpawnPosition: (index, position) =>
       set((state) => ({

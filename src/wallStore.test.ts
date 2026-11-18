@@ -115,6 +115,21 @@ describe('wall store', () => {
     expect(slots.some((slot) => slot?.id === 'w0' || slot?.id === 'w1')).toBe(false)
   })
 
+  it('uses the configured capacity and evicts the oldest wish past that limit', () => {
+    const { store, transport } = setup()
+    store.getState().setCapacity(2)
+
+    transport.add(makeWish('w0'))
+    transport.add(makeWish('w1'))
+    transport.add(makeWish('w2'))
+
+    expect(store.getState().slots.map((slot) => slot?.id)).toEqual([
+      'w2',
+      'w1',
+    ])
+    expect(store.getState().arrival).toEqual(['w1', 'w2'])
+  })
+
   it('updates a wish in place without moving it or changing arrival order', () => {
     const { store, transport } = setup()
     transport.add(makeWish('w0'))
