@@ -128,6 +128,8 @@ export function DevPanel({
     }
   }
 
+  const activeSpawnPositions = spawnPositions.slice(0, spawnLimit)
+
   return (
     <aside className={styles.panel}>
       <h2 className={styles.title}>Dev panel</h2>
@@ -218,7 +220,7 @@ export function DevPanel({
           </label>
           <div className={styles.wishPositions}>
             <span className={styles.sectionLabel}>Available spawn positions</span>
-            {spawnPositions.map((position, index) => {
+            {activeSpawnPositions.map((position, index) => {
               return (
                 <div className={styles.wishPosition} key={index}>
                   <span className={styles.wishLabel}>Position {index + 1}</span>

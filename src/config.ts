@@ -1,4 +1,4 @@
-import type { SpawnPosition } from './wallStore'
+import { WALL_CAPACITY, type SpawnPosition } from './wallStore'
 
 export interface WallConfig {
   qrUrl: string
@@ -6,7 +6,7 @@ export interface WallConfig {
   spawnPositions?: SpawnPosition[]
 }
 
-export const MAX_CONFIG_SPAWN_LIMIT = 7
+export const MAX_CONFIG_SPAWN_LIMIT = WALL_CAPACITY
 
 function parseSpawnPositions(value: unknown): SpawnPosition[] {
   if (!Array.isArray(value) || value.length === 0) {

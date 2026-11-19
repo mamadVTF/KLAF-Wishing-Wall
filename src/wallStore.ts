@@ -23,6 +23,8 @@ export interface SpawnPosition {
   y: number
 }
 
+const CENTER_SPAWN_POSITION: SpawnPosition = { x: 50, y: 50 }
+
 export const DEFAULT_SPAWN_POSITIONS: SpawnPosition[] = [
   { x: 13, y: 30 },
   { x: 35, y: 28 },
@@ -68,10 +70,17 @@ export const createWallStore = () => {
   let rotationStarted = false
   let flavorRotationStarted = false
 
+  const defaultSpawnPositions = Array.from(
+    { length: WALL_CAPACITY },
+    (_, index) => ({
+      ...(DEFAULT_SPAWN_POSITIONS[index] ?? CENTER_SPAWN_POSITION),
+    }),
+  )
+
   const store = createStore<WallStoreState>()((set, get) => ({
     slots: Array<Wish | null>(WALL_CAPACITY).fill(null),
     capacity: WALL_CAPACITY,
-    spawnPositions: DEFAULT_SPAWN_POSITIONS.map((position) => ({ ...position })),
+    spawnPositions: defaultSpawnPositions,
     positions: Array<SpawnPosition | null>(WALL_CAPACITY).fill(null),
     nextSpawnPosition: null,
     flavor: FLAVORS[0],
@@ -117,7 +126,15 @@ export const createWallStore = () => {
           WALL_CAPACITY,
           Math.max(1, Math.floor(capacity)),
         )
-        if (nextCapacity === state.capacity) {
+        const spawnPositions = [...state.spawnPositions]
+        while (spawnPositions.length < nextCapacity) {
+          spawnPositions.push({ ...CENTER_SPAWN_POSITION })
+        }
+
+        if (
+          nextCapacity === state.capacity &&
+          spawnPositions.length === state.spawnPositions.length
+        ) {
           return state
         }
 
@@ -142,6 +159,7 @@ export const createWallStore = () => {
 
         return {
           capacity: nextCapacity,
+          spawnPositions,
           slots,
           positions,
           arrival: state.arrival.filter((id) => retainedIds.has(id)),

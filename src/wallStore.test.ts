@@ -142,6 +142,19 @@ describe('wall store', () => {
     expect(store.getState().arrival).toEqual(['w1', 'w2'])
   })
 
+  it('gives newly enabled spawn points a center default position', () => {
+    const { store, transport } = setup()
+    store.getState().setCapacity(8)
+
+    transport.add(makeWish('w0'))
+    for (let i = 1; i < 8; i++) {
+      transport.add(makeWish(`w${i}`))
+    }
+
+    expect(store.getState().spawnPositions[7]).toEqual({ x: 50, y: 50 })
+    expect(store.getState().positions[7]).toEqual({ x: 50, y: 50 })
+  })
+
   it('updates a wish in place without moving it or changing arrival order', () => {
     const { store, transport } = setup()
     transport.add(makeWish('w0'))

@@ -1,6 +1,6 @@
 {
   "qrUrl": "https://interactive.lumiworks.io/wall/klaf-ai-pb-nov-2026/submit",
-  "spawnLimit": 7,
+  "spawnLimit": 10,
   "spawnPositions": [
     {
       "x": 15,
@@ -29,6 +29,38 @@
     {
       "x": 62,
       "y": 75
+    },
+    {
+      "x": 78,
+      "y": 50
+    },
+    {
+      "x": 11,
+      "y": 50
+    },
+    {
+      "x": 57,
+      "y": 74
+    },
+    {
+      "x": 50,
+      "y": 50
+    },
+    {
+      "x": 50,
+      "y": 50
+    },
+    {
+      "x": 50,
+      "y": 50
+    },
+    {
+      "x": 50,
+      "y": 50
+    },
+    {
+      "x": 50,
+      "y": 50
     }
   ]
 }

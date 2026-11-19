@@ -17,6 +17,7 @@ export function Wall({ showSpawnPositions = false }: WallProps) {
   const slots = useStore(wallStore, (state) => state.slots)
   const positions = useStore(wallStore, (state) => state.positions)
   const spawnPositions = useStore(wallStore, (state) => state.spawnPositions)
+  const capacity = useStore(wallStore, (state) => state.capacity)
   const focusId = useStore(wallStore, (state) => state.focusId)
 
   useEffect(() => {
@@ -38,7 +39,7 @@ export function Wall({ showSpawnPositions = false }: WallProps) {
     <main className={styles.wall}>
       <div className={styles.contentArea}>
         {showSpawnPositions &&
-          spawnPositions.map((position, index) => (
+          spawnPositions.slice(0, capacity).map((position, index) => (
             <div
               className={styles.spawnMarker}
               key={`spawn-marker-${index}`}

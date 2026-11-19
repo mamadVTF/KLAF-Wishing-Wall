@@ -19,4 +19,13 @@ describe('parseConfig', () => {
     expect(() => parseConfig({ qrUrl: 42 })).toThrow()
     expect(() => parseConfig({ qrUrl: '   ' })).toThrow()
   })
+
+  it('accepts a spawn limit up to the wall capacity', () => {
+    expect(
+      parseConfig({ qrUrl: 'https://example.com/wish', spawnLimit: 15 }),
+    ).toEqual({
+      qrUrl: 'https://example.com/wish',
+      spawnLimit: 15,
+    })
+  })
 })
