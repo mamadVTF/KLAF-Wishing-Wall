@@ -9,28 +9,22 @@ export function QrCode({ qrUrl }: QrCodeProps) {
   return (
     <div className={styles.block}>
       <div
-        className={styles.frame}
+        className={styles.card}
+        role="img"
         aria-label={`Scan to open the wish submission form: ${qrUrl}`}
       >
-        <img
-          className={styles.frameImage}
-          src="/images/qr-corner.png"
-          alt=""
-          aria-hidden="true"
-        />
         <QRCodeSVG
           className={styles.code}
           value={qrUrl}
           bgColor="transparent"
-          fgColor="#fff"
+          fgColor="#111"
           level="M"
         />
+        <span className={styles.instruction} aria-hidden="true">
+          <span>SCAN TO SUBMIT</span>
+          <span>YOUR WISHES</span>
+        </span>
       </div>
-      <img
-        className={styles.instruction}
-        src="/images/scan-to-submit-wishes.png"
-        alt="Scan to submit your wishes"
-      />
     </div>
   )
 }
