@@ -45,18 +45,6 @@
   backface-visibility: hidden;
 }
 
-.bubbleA {
-  background-image: url('/images/wish-bubble-a.png');
-}
-
-.bubbleB {
-  background-image: url('/images/wish-bubble-b.png');
-}
-
-.bubbleC {
-  background-image: url('/images/wish-bubble-c.png');
-}
-
 .content {
   position: absolute;
   top: 50%;
@@ -100,10 +88,45 @@
   word-break: break-word;
 }
 
-.dissolvingSurface {
+.burst .content {
+  animation: releaseSurface 150ms ease-out forwards;
+}
+
+@keyframes releaseSurface {
+  to { opacity: 0; }
+}
+
+.burstArt {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.tearHole {
+  transform-box: fill-box;
   transform-origin: center;
+  animation: openHole 380ms ease-in both;
+}
+
+@keyframes openHole {
+  from { transform: scale(0); }
+  to { transform: scale(1); }
+}
+
+.film {
+  animation: releaseSurface 200ms 620ms forwards;
+}
+
+.droplets {
+  animation: beadFade 460ms both;
+}
+
+@keyframes beadFade {
+  0%, 100% { opacity: 0; }
+  18%, 55% { opacity: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
-import { motion, usePresence } from 'motion/react'
+import { motion, useIsPresent, useReducedMotion } from 'motion/react'
 import type { Wish } from '../transport'
 import styles from './WishBubble.module.css'
+import { BubbleBurst, BURST_SECONDS } from './BubbleBurst'
 
 interface WishBubbleProps {
   wish: Wish
@@ -9,22 +10,23 @@ interface WishBubbleProps {
   focused?: boolean
 }
 
-/** Sound played when a new bubble pops in. Drop pop.mp3 into public/audio/. */
+const REVEAL_SOUND = '/audio/sfx-bubble-reveal.mp3'
 const POP_SOUND = '/audio/sfx-pop.mp3'
-const DISSOLVE_DURATION = 0.45
-const EXIT_REMOVE_DELAY_MS = 500
-type BubbleAsset = 'bubbleA' | 'bubbleB' | 'bubbleC'
-const BUBBLE_ASSETS: BubbleAsset[] = ['bubbleA', 'bubbleB', 'bubbleC']
+const BUBBLE_ASSETS = ['a', 'b', 'c'].map(variant => `/images/wish-bubble-${variant}.png`)
 
 function WishBubbleSurface({
   wish,
   bubbleAsset,
+  bursting,
 }: {
   wish: Wish
-  bubbleAsset: BubbleAsset
+  bubbleAsset: string
+  bursting: boolean
 }) {
   return (
-    <div className={`${styles.bubble} ${styles[bubbleAsset]}`}>
+    <div className={`${styles.bubble} ${bursting ? styles.burst : ''}`}
+      style={{ backgroundImage: bursting ? undefined : `url(${bubbleAsset})` }}>
+      {bursting && <BubbleBurst artwork={bubbleAsset} />}
       <div className={styles.content}>
         <span className={styles.name}>{wish.name}</span>
         <span className={styles.message}>{wish.message}</span>
@@ -39,40 +41,35 @@ export function WishBubble({ wish, focused = false }: WishBubbleProps) {
   const [bubbleAsset] = useState(
     () => BUBBLE_ASSETS[Math.floor(Math.random() * BUBBLE_ASSETS.length)],
   )
-  const [isPresent, safeToRemove] = usePresence()
+  const isPresent = useIsPresent()
+  const reducedMotion = useReducedMotion()
 
   useEffect(() => {
-    if (!isPresent) {
-      return
-    }
-
-    const audio = new Audio(POP_SOUND)
-    audio.preload = 'auto'
+    const audio = new Audio(isPresent ? REVEAL_SOUND : POP_SOUND)
     audio.play().catch(() => {
-      // Autoplay blocked or the file is missing — the visual add still plays.
+      // The animation can still run if the browser blocks audio.
     })
 
+    // Let the burst sound finish even after the exit animation releases the slot.
+    if (!isPresent) return
     return () => {
       audio.pause()
-      audio.currentTime = 0
     }
   }, [isPresent])
-
-  useEffect(() => {
-    if (isPresent) {
-      return
-    }
-
-    const timeout = window.setTimeout(safeToRemove, EXIT_REMOVE_DELAY_MS)
-    return () => window.clearTimeout(timeout)
-  }, [isPresent, safeToRemove])
 
   return (
     <motion.div
       className={`${styles.float} ${focused ? styles.focused : ''}`}
       initial={{ scale: 0.72, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
-      exit={{ scale: 1, opacity: 1, rotate: 0 }}
+      exit={{
+        opacity: reducedMotion ? 0 : [1, 1, 0],
+        transition: {
+          duration: reducedMotion ? 0.15 : BURST_SECONDS,
+          times: reducedMotion ? undefined : [0, 0.9, 1],
+          ease: 'easeOut',
+        },
+      }}
       transition={{
         type: 'spring',
         stiffness: 210,
@@ -80,20 +77,9 @@ export function WishBubble({ wish, focused = false }: WishBubbleProps) {
         mass: 0.8,
       }}
     >
-      {isPresent ? (
-        <div className={styles.floatWrap} style={{ animationDelay: `${floatDelay}s` }}>
-          <WishBubbleSurface wish={wish} bubbleAsset={bubbleAsset} />
-        </div>
-      ) : (
-        <motion.div
-          className={styles.dissolvingSurface}
-          initial={{ opacity: 1, scale: 1 }}
-          animate={{ opacity: 0, scale: 0.96 }}
-          transition={{ duration: DISSOLVE_DURATION, ease: 'easeInOut' }}
-        >
-          <WishBubbleSurface wish={wish} bubbleAsset={bubbleAsset} />
-        </motion.div>
-      )}
+      <div className={styles.floatWrap} style={{ animationDelay: `${floatDelay}s`, animationPlayState: isPresent ? 'running' : 'paused' }}>
+        <WishBubbleSurface wish={wish} bubbleAsset={bubbleAsset} bursting={!isPresent && !reducedMotion} />
+      </div>
     </motion.div>
   )
 }

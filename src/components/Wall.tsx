@@ -53,29 +53,21 @@ export function Wall({ showSpawnPositions = false }: WallProps) {
         {/* All 12 slots are always rendered so their fixed scatter positions
             (per-index class rules below) never shift as wishes come and go. */}
         {slots.map((wish, index) => (
-          <div
-            key={index}
-            className={`${styles.slot} ${styles[`slot-${index}`]}`}
-            style={{
-              ...(positions[index]
-                ? {
-                    left: `${positions[index]?.x}%`,
-                    top: `${positions[index]?.y}%`,
-                  }
-                : {}),
-              zIndex: wish?.id === focusId ? 2 : 1,
-            }}
-          >
-            <AnimatePresence mode="wait">
-              {wish && (
-                <WishBubble
-                  key={wish.id}
-                  wish={wish}
-                  focused={wish.id === focusId}
-                />
-              )}
-            </AnimatePresence>
-          </div>
+          <AnimatePresence key={index} mode="wait">
+            {wish && (
+              <div
+                key={wish.id}
+                className={`${styles.slot} ${styles[`slot-${index}`]}`}
+                style={{
+                  left: positions[index] ? `${positions[index].x}%` : undefined,
+                  top: positions[index] ? `${positions[index].y}%` : undefined,
+                  zIndex: wish.id === focusId ? 2 : 1,
+                }}
+              >
+                <WishBubble wish={wish} focused={wish.id === focusId} />
+              </div>
+            )}
+          </AnimatePresence>
         ))}
       </div>
     </main>
