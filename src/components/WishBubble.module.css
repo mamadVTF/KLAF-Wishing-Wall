@@ -1,8 +1,8 @@
 .float {
   /* Entrance wrapper; the floatWrap wrapper below carries the layout. */
   position: relative;
-  width: 464px;
-  height: 205px;
+  width: 600px;
+  height: 400px;
   overflow: visible;
   will-change: transform;
 }
@@ -33,67 +33,44 @@
 
 .bubble {
   position: relative;
-  background: transparent;
-  border: 2px solid #222;
-  box-shadow: none;
-  border-radius: 0;
-  width: 464px;
-  height: 205px;
-  padding: 28px 28px 24px;
-  overflow: hidden;
+  width: 600px;
+  height: 400px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  overflow: visible;
   font-family: Arial, Helvetica, sans-serif;
-  color: #000;
+  color: #fff;
   isolation: isolate;
   backface-visibility: hidden;
-  transition:
-    border-color 320ms ease,
-    box-shadow 320ms ease;
 }
 
-.bubble::before {
-  position: absolute;
-  inset: 2px;
-  z-index: 0;
-  content: '';
-  background: var(--box-color);
-  opacity: 1;
-  pointer-events: none;
-  transition: opacity 360ms ease;
+.bubbleA {
+  background-image: url('/images/wish-bubble-a.png');
 }
 
-.teal {
-  --box-color: #249c91;
-  --accent-color: #f7f20d;
+.bubbleB {
+  background-image: url('/images/wish-bubble-b.png');
 }
 
-.orange {
-  --box-color: #ffa31a;
-  --accent-color: #008fa3;
-}
-
-.blue {
-  --box-color: #72a5d5;
-  --accent-color: #f7f20d;
-}
-
-.yellow {
-  --box-color: #f7f20d;
-  --accent-color: #008fa3;
-}
-
-.red {
-  --box-color: #f65a42;
-  --accent-color: #f7f20d;
+.bubbleC {
+  background-image: url('/images/wish-bubble-c.png');
 }
 
 .content {
-  position: relative;
+  position: absolute;
+  top: 50%;
+  left: 50%;
   z-index: 1;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  width: 320px;
   gap: 12px;
-  min-width: 0;
-  transition: opacity 360ms ease;
+  padding: 0 12px 0 18px;
+  text-align: left;
+  transform: translate(-50%, -50%);
 }
 
 .name {
@@ -103,7 +80,8 @@
   font-size: calc(14px / var(--wall-font-scale, 0.62));
   letter-spacing: 1.5px;
   line-height: 1;
-  color: var(--accent-color);
+  color: #f7f20d;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.85);
   text-transform: uppercase;
 }
 
@@ -111,117 +89,25 @@
   letter-spacing: 0.4px;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 400;
-  /* Keep the rendered message at 18px even though the wall is scaled. */
-  font-size: calc(18px / var(--wall-font-scale, 0.62));
+  /* Keep the rendered message at 14px even though the wall is scaled. */
+  font-size: calc(14px / var(--wall-font-scale, 0.62));
   font-style: normal;
   line-height: 1.1;
-  color: #000;
+  color: #fff;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.9);
   text-transform: uppercase;
   overflow-wrap: anywhere;
   word-break: break-word;
 }
 
-.cornerMark {
-  position: absolute;
-  right: 22px;
-  bottom: 22px;
-  z-index: 1;
-  display: grid;
-  grid-template-columns: repeat(3, 10px);
-  grid-template-rows: repeat(3, 10px);
-  transition: opacity 360ms ease;
-}
-
-.cornerMark span {
-  display: block;
-  width: 10px;
-  height: 10px;
-  background: var(--accent-color);
-}
-
-.cornerMark span:nth-child(1) {
-  grid-column: 2;
-  grid-row: 1;
-}
-
-.cornerMark span:nth-child(2) {
-  grid-column: 1;
-  grid-row: 2;
-}
-
-.cornerMark span:nth-child(3) {
-  grid-column: 3;
-  grid-row: 2;
-}
-
-.cornerMark span:nth-child(4) {
-  grid-column: 2;
-  grid-row: 3;
-}
-
-.disperseLayer,
-.assembleLayer {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  overflow: visible;
-  pointer-events: none;
-}
-
 .dissolvingSurface {
   position: absolute;
   inset: 0;
-  z-index: 1;
   transform-origin: center;
 }
 
-.pixelatedLayer {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  overflow: visible;
-  pointer-events: none;
-}
-
-.dispersePiece {
-  position: absolute;
-  display: block;
-  will-change: transform, opacity;
-}
-
-.revealing {
-  background: transparent;
-  border-color: transparent;
-  box-shadow: none;
-}
-
-.revealing::before {
-  opacity: 0;
-}
-
-.revealing .content {
-  opacity: 0;
-}
-
-.revealing .cornerMark {
-  opacity: 0;
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .revealing {
-    border-color: #222;
-    box-shadow: none;
-  }
-
-  .revealing::before {
-    opacity: 1;
-  }
-
-  .revealing .content {
-    opacity: 1;
-  }
-
-  .assembleLayer {
-    display: none;
+  .floatWrap {
+    animation: none;
   }
 }
